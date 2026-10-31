@@ -1,7 +1,7 @@
 import numpy as np
-from potencia import autpotencias2
-from plot import graficar_resultados_lda
-from gauss import sol_egauss
+from aux.potencia import autpotencias2
+from aux.plot import graficar_resultados_lda
+from aux.gauss import sol_egauss
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 
