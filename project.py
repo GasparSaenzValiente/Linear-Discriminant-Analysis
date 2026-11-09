@@ -78,4 +78,4 @@ y_pred = np.where(distancia_a_maligno < distancia_a_benigno, 0, 1)
 exactitud = np.mean(y_pred == y_test) * 100
 print(f"Exactitud del clasificador LDA: {exactitud:.2f}%")
 
-graficar_resultados_lda(X_train, y_train, X_test, y_test, w, media_proj, media_b_projection, y_pred)
+graficar_resultados_lda(X_train, y_train, X_test, y_test, w, media_m_projection, media_b_projection, y_pred, data.feature_names)
