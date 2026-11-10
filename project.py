@@ -39,7 +39,7 @@ cov_b = sigmaw_b.T @ sigmaw_b
 cov_m = sigmaw_m.T @ sigmaw_m
 
 # varianza intra clase
-Sw = p_b * cov_b + p_m * cov_m
+Sw = p_b * cov_b/len(X_train_b) + p_m * cov_m/len(X_train_m)
 print(f"sw shape {np.shape(Sw)}")
 # varianza entre clases
 sigmab_b = media_b - media
