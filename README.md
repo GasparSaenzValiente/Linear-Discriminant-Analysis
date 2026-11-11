@@ -1,5 +1,5 @@
 # Linear-Discriminant-Analysis
-# Clasificación de Tumores de Mama mediante Análisis Discriminante Lineal (LDA)
+## Clasificación de Tumores de Mama mediante Análisis Discriminante Lineal (LDA)
 
 Este proyecto implementa desde cero el método de **Análisis Discriminante Lineal (LDA)** para clasificar tumores de mama en benignos y malignos. Utilizando el conjunto de datos `breast_cancer` de `scikit-learn`, el modelo busca proyectar datos multidimensionales en un único eje que maximice la separación entre las clases.
 
