@@ -25,11 +25,9 @@ media_b = np.mean(X_train_b, axis=0)
 # probs
 p_m = len(X_train_m)/len(X_train)
 p_b = len(X_train_b)/len(X_train)
-print(f"Probabilidad m: {p_m}, b:{p_b}")
 
 # mu
 media = np.mean(X_train, axis=0)
-print(f"Media: {media}")
 
 # covs
 sigmaw_b = X_train_b - media_b
@@ -40,7 +38,7 @@ cov_m = sigmaw_m.T @ sigmaw_m
 
 # varianza intra clase
 Sw = p_b * cov_b/len(X_train_b) + p_m * cov_m/len(X_train_m)
-print(f"sw shape {np.shape(Sw)}")
+
 # varianza entre clases
 sigmab_b = media_b - media
 sigmab_m = media_m - media
@@ -49,7 +47,6 @@ covb_b = np.outer(sigmab_b, sigmab_b)
 covb_m = np.outer(sigmab_m, sigmab_m)
 
 Sb = p_b * covb_b + p_m * covb_m
-print(f"sb shape {np.shape(Sb)}")
 
 # criterion
 #criterion = np.linalg.inv(Sw) @ Sb
@@ -58,7 +55,6 @@ for i in range(len(criterion)):
     criterion[:, i] = sol_egauss(Sw, Sb[:, i])
 
 lamda, w = autpotencias2(criterion, media)
-print(f"lamda:{lamda}, dir:{w}")
 
 # proyecciones
 X_train_projection = X_train  @ w
