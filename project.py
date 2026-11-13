@@ -242,6 +242,44 @@ y_pred = np.where(distancia_a_maligno < distancia_a_benigno, 0, 1)
 exactitud = np.mean(y_pred == y_test) * 100
 print(f"Exactitud del clasificador LDA: {exactitud:.2f}%")
 
+# =============================================================================
+# UMBRAL PARA MAXIMIZAR EL RECALL DE MALIGNOS (clase 0)
+# =============================================================================
+# El signo del autovector es arbitrario: lo orientamos para que los malignos
+# proyecten más alto, así "s >= t  =>  maligno".
+w_or = -w if media_m_projection < media_b_projection else w
+
+s_train = X_train @ w_or
+s_test  = X_test  @ w_or
+t0 = (media_m @ w_or + media_b @ w_or) / 2   # equivalente a la regla de distancias
+
+def metricas(y_true, y_pred):
+    """Maligno (0) es la clase positiva."""
+    tp = np.sum((y_pred == 0) & (y_true == 0))
+    fn = np.sum((y_pred == 1) & (y_true == 0))
+    fp = np.sum((y_pred == 0) & (y_true == 1))
+    tn = np.sum((y_pred == 1) & (y_true == 1))
+    recall = tp / (tp + fn)
+    precision = tp / (tp + fp) if tp + fp > 0 else 0.0
+    especificidad = tn / (tn + fp)
+    return recall, precision, especificidad, fn, fp
+
+# Criterio de recall: el MAYOR umbral que alcanza el recall objetivo EN TRAIN
+objetivo = 0.98
+t = t0
+for c in np.sort(s_train[y_train == 0])[::-1]:
+    if metricas(y_train, np.where(s_train >= c, 0, 1))[0] >= objetivo:
+        t = min(c, t0)
+        break
+
+y_pred_recall = np.where(s_test >= t, 0, 1)   # predicción final con el umbral nuevo
+
+for nombre, umbral in [("punto medio (original)", t0), (f"recall >= {objetivo}", t)]:
+    y_u = np.where(s_test >= umbral, 0, 1)
+    r, p, e, fn, fp = metricas(y_test, y_u)
+    print(f"{nombre:<24} t={umbral:.4f}  recall={r:.3f}  precision={p:.3f}  "
+          f"especif={e:.3f}  FN={fn}  FP={fp}")
+
 # El gráfico final no se modifica: solo interceptamos plt.show para guardar
 # cada uno de sus cuatro paneles por separado antes de mostrarlo.
 _plt_show = plt.show
@@ -256,6 +294,6 @@ def _guardar_y_mostrar(*args, **kwargs):
 
 plt.show = _guardar_y_mostrar
 try:
-    graficar_resultados_lda(X_train, y_train, X_test, y_test, w, media_m_projection, media_b_projection, y_pred, data.feature_names)
+    graficar_resultados_lda(X_train, y_train, X_test, y_test, w, media_m_projection, media_b_projection, y_pred_recall, data.feature_names)
 finally:
     plt.show = _plt_show
