@@ -28,8 +28,8 @@ El proyecto incluye scripts automatizados para crear un entorno virtual, instala
 
 ### En Linux / macOS
 ```bash
-chmod +x setup.sh
-./setup.sh
+chmod +x run.sh
+./run.sh
 ```
 
 > **Nota:** El script verificará automáticamente si el entorno virtual ya existe. Si es la primera vez, descargará las librerías. En las siguientes ejecuciones, simplemente abrirá los resultados y los gráficos al instante.
