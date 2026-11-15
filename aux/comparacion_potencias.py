@@ -1,5 +1,4 @@
 """Comparación de métodos de potencias y selección del autovector para LDA."""
-
 import os
 import time
 import numpy as np

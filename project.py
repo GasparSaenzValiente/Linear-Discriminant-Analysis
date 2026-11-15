@@ -7,7 +7,6 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from aux.comparacion_potencias import ejecutar_comparacion, guardar_paneles
 
-
 data = load_breast_cancer()
 
 X = data.data
@@ -54,8 +53,8 @@ covb_m = np.outer(sigmab_m, sigmab_m)
 Sb = p_b * covb_b + p_m * covb_m
 print(f"sb shape {np.shape(Sb)}")
 
-# criterion
-#criterion = np.linalg.inv(Sw) @ Sb
+
+# criterion = np.linalg.inv(Sw) @ Sb
 criterion = np.zeros(np.shape(Sw))
 for i in range(len(criterion)):
     criterion[:, i] = sol_egauss(Sw, Sb[:, i])
@@ -83,10 +82,9 @@ y_pred = np.where(distancia_a_maligno < distancia_a_benigno, 0, 1)
 exactitud = np.mean(y_pred == y_test) * 100
 print(f"Exactitud del clasificador LDA: {exactitud:.2f}%")
 
-# =============================================================================
-# UMBRAL PARA MAXIMIZAR EL RECALL DE MALIGNOS (clase 0)
-# =============================================================================
-# El signo del autovector es arbitrario: lo orientamos para que los malignos
+
+# UMBRAL
+# el signo del autovector es arbitrario: lo orientamos para que los malignos
 # proyecten más alto, así "s >= t  =>  maligno".
 w_or = -w if media_m_projection < media_b_projection else w
 
@@ -113,7 +111,7 @@ for c in np.sort(s_train[y_train == 0])[::-1]:
         t = min(c, t0)
         break
 
-y_pred_recall = np.where(s_test >= t, 0, 1)   # predicción final con el umbral nuevo
+y_pred_recall = np.where(s_test >= t, 0, 1)   # prediccion final con el umbral nuevo
 
 for nombre, umbral in [("punto medio (original)", t0), (f"recall >= {objetivo}", t)]:
     y_u = np.where(s_test >= umbral, 0, 1)
