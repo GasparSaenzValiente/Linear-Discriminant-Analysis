@@ -249,6 +249,6 @@ def ejecutar_comparacion(criterion, media, X_test, y_test, media_m, media_b):
     lamda = res_lda[metodo_elegido]["rho"]
 
     print(f"\nMétodo usado para el LDA: {metodo_elegido}")
-    print(f"lamda:{lamda}, dir:{w}")
+    print(f"lamda:{lamda}, dir:{w}\n")
 
     return w, lamda
