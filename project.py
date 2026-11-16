@@ -42,7 +42,7 @@ cov_m = sigmaw_m.T @ sigmaw_m
 
 # varianza intra clase
 Sw = p_b * cov_b/len(X_train_b) + p_m * cov_m/len(X_train_m)
-print(f"sw shape {np.shape(Sw)}")
+
 # varianza entre clases
 sigmab_b = media_b - media
 sigmab_m = media_m - media
@@ -51,7 +51,6 @@ covb_b = np.outer(sigmab_b, sigmab_b)
 covb_m = np.outer(sigmab_m, sigmab_m)
 
 Sb = p_b * covb_b + p_m * covb_m
-print(f"sb shape {np.shape(Sb)}")
 
 
 # criterion = np.linalg.inv(Sw) @ Sb

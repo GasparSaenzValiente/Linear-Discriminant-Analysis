@@ -162,7 +162,6 @@ def guardar_paneles(fig, nombres, carpeta=CARPETA_FIGURAS, dpi=200):
 
         ruta = os.path.join(carpeta, nombre)
         fig.savefig(ruta, bbox_inches=caja, dpi=dpi)
-        print(f"  guardado: {ruta}")
 
 
 def graficar_convergencia(resultados):
